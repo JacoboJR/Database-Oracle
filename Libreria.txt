@@ -1,0 +1,513 @@
+CREATE TABLE almacen (
+    cve_almacen   NUMBER NOT NULL,
+    cve_tienda    NUMBER NOT NULL,
+    ubicacion     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX almacen__idx ON
+    almacen (
+        cve_almacen
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE almacen ADD CONSTRAINT pk_almacen PRIMARY KEY ( cve_almacen );
+
+CREATE TABLE autor (
+    cve_autor     NUMBER NOT NULL,
+    cve_persona   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX autor__idx ON
+    autor (
+        cve_autor
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE autor ADD CONSTRAINT pk_autor PRIMARY KEY ( cve_autor );
+
+CREATE TABLE cliente (
+    cve_cliente        NUMBER NOT NULL,
+    email              VARCHAR2(100) NOT NULL,
+    cve_persona        NUMBER NOT NULL,
+    cve_direccion      NUMBER NOT NULL,
+    cve_tipo_cliente   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX cliente__idx ON
+    cliente (
+        cve_cliente
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE cliente ADD CONSTRAINT pk_cliente PRIMARY KEY ( cve_cliente );
+
+CREATE TABLE colonia (
+    cve_colonia        NUMBER NOT NULL,
+    descripcion        VARCHAR2(100) NOT NULL,
+    cp                 NUMBER NOT NULL,
+    "cve_municipio "   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX colonia__idx ON
+    colonia (
+        cve_colonia
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE colonia ADD CONSTRAINT pk_colonia PRIMARY KEY ( cve_colonia );
+
+CREATE TABLE direccion (
+    cve_direccion   NUMBER NOT NULL,
+    calle           VARCHAR2(20) NOT NULL,
+    numext          INTEGER NOT NULL,
+    cve_colonia     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX direccion__idx ON
+    direccion (
+        cve_direccion
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE direccion ADD CONSTRAINT pk_direccion PRIMARY KEY ( cve_direccion );
+
+CREATE TABLE editores (
+    cve_editores      NUMBER NOT NULL,
+    nombre_contacto   NUMBER NOT NULL,
+    cve_direccion     NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX editores__idx ON
+    editores (
+        cve_editores
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE editores ADD CONSTRAINT pk_editores PRIMARY KEY ( cve_editores );
+
+CREATE TABLE estado (
+    cve_estado    NUMBER NOT NULL,
+    descripcion   VARCHAR2(100) NOT NULL,
+    capital       VARCHAR2(100) NOT NULL,
+    cve_pais      NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX estado__idx ON
+    estado (
+        cve_estado
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE estado ADD CONSTRAINT pk_estado PRIMARY KEY ( cve_estado );
+
+CREATE TABLE factura (
+    cve_factura     NUMBER NOT NULL,
+    cve_fecha       NUMBER NOT NULL,
+    observaciones   VARCHAR2(250) NOT NULL,
+    cve_cliente     NUMBER NOT NULL,
+    cve_tienda      NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX factura__idx ON
+    factura (
+        cve_factura
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE factura ADD CONSTRAINT pk_factura PRIMARY KEY ( cve_factura );
+
+CREATE TABLE factura_libro (
+    cve_factura             NUMBER NOT NULL,
+    cve_libro               NUMBER NOT NULL,
+    qty_libros_facturados   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX factura_libro__idx ON
+    factura_libro (
+        cve_factura
+    ASC,
+        cve_libro
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE factura_libro ADD CONSTRAINT pk_factura_libro PRIMARY KEY ( cve_factura,
+                                                                        cve_libro );
+
+CREATE TABLE fecha (
+    cve_fecha   NUMBER NOT NULL,
+    dia         VARCHAR2(2) NOT NULL,
+    mes         VARCHAR2(2) NOT NULL,
+    anio        VARCHAR2(4) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX fecha__idx ON
+    fecha (
+        cve_fecha
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE fecha ADD CONSTRAINT pk_fecha PRIMARY KEY ( cve_fecha );
+
+CREATE TABLE libreria (
+    cve_libreria      NUMBER NOT NULL,
+    descripcion       VARCHAR2(100) NOT NULL,
+    cve_direccion     NUMBER NOT NULL,
+    nombre_contacto   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX libreria__idx ON
+    libreria (
+        cve_libreria
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE libreria ADD CONSTRAINT pk_libreria PRIMARY KEY ( cve_libreria );
+
+CREATE TABLE libro (
+    cve_libro      NUMBER NOT NULL,
+    cve_almacen    NUMBER NOT NULL,
+    cve_editores   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX libro__idx ON
+    libro (
+        cve_libro
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE libro ADD CONSTRAINT pk_libro PRIMARY KEY ( cve_libro );
+
+CREATE TABLE libro_autor (
+    cve_libro   NUMBER NOT NULL,
+    cve_autor   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX libro_autor__idx ON
+    libro_autor (
+        cve_libro
+    ASC,
+        cve_autor
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE libro_autor ADD CONSTRAINT pk_libro_autor PRIMARY KEY ( cve_libro,
+                                                                    cve_autor );
+
+CREATE TABLE municipio (
+    "cve_municipio "   NUMBER NOT NULL,
+    descripcion        VARCHAR2(100) NOT NULL,
+    cve_estado         NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX municipio__idx ON
+    municipio (
+        "cve_municipio "
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE municipio ADD CONSTRAINT pk_municipio PRIMARY KEY ( "cve_municipio " );
+
+CREATE TABLE pais (
+    cve_pais      NUMBER NOT NULL,
+    descripcion   VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX pais__idx ON
+    pais (
+        cve_pais
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE pais ADD CONSTRAINT pk_pais PRIMARY KEY ( cve_pais );
+
+CREATE TABLE pedido (
+    cve_pedido     NUMBER NOT NULL,
+    cve_tienda     NUMBER NOT NULL,
+    cve_editores   NUMBER NOT NULL,
+    cve_fecha      NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX pedido__idx ON
+    pedido (
+        cve_pedido
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE pedido ADD CONSTRAINT pk_pedido PRIMARY KEY ( cve_pedido );
+
+CREATE TABLE persona (
+    cve_persona   NUMBER NOT NULL,
+    nombre        VARCHAR2(100) NOT NULL,
+    a_paterno     VARCHAR2(100) NOT NULL,
+    a_materno     VARCHAR2(100) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX persona__idx ON
+    persona (
+        cve_persona
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE persona ADD CONSTRAINT pk_persona PRIMARY KEY ( cve_persona );
+
+CREATE TABLE telefonos (
+    cve_telefonos       NUMBER NOT NULL,
+    telefono            VARCHAR2(20) NOT NULL,
+    lada                VARCHAR2(5) NOT NULL,
+    extension           VARCHAR2(5),
+    cve_cliente         NUMBER NOT NULL,
+    cve_tipo_telefono   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX telefonos__idx ON
+    telefonos (
+        cve_telefonos
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE telefonos ADD CONSTRAINT pk_telefonos PRIMARY KEY ( cve_telefonos );
+
+CREATE TABLE tienda (
+    cve_tienda           NUMBER NOT NULL,
+    "descripcion "       VARCHAR2(100) NOT NULL,
+    cve_libreria         NUMBER NOT NULL,
+    cve_direccion        NUMBER NOT NULL,
+    nombre_responsable   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tienda__idx ON
+    tienda (
+        cve_tienda
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tienda ADD CONSTRAINT pk_tienda PRIMARY KEY ( cve_tienda );
+
+CREATE TABLE tienda_cliente (
+    cve_tienda    NUMBER NOT NULL,
+    cve_cliente   NUMBER NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tienda_cliente__idx ON
+    tienda_cliente (
+        cve_tienda
+    ASC,
+        cve_cliente
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tienda_cliente ADD CONSTRAINT pk_tienda_cliente PRIMARY KEY ( cve_tienda,
+                                                                          cve_cliente );
+
+CREATE TABLE tipo_cliente (
+    cve_tipo_cliente   NUMBER NOT NULL,
+    descripcion        VARCHAR2(30) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tipo_cliente__idx ON
+    tipo_cliente (
+        cve_tipo_cliente
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tipo_cliente ADD CONSTRAINT pk_tipo_cliente PRIMARY KEY ( cve_tipo_cliente );
+
+CREATE TABLE tipo_telefono (
+    cve_tipo_telefono   NUMBER NOT NULL,
+    descripcion         VARCHAR2(20) NOT NULL
+)
+TABLESPACE datos LOGGING;
+
+CREATE UNIQUE INDEX tipo_telefono__idx ON
+    tipo_telefono (
+        cve_tipo_telefono
+    ASC )
+        TABLESPACE indx LOGGING;
+
+ALTER TABLE tipo_telefono ADD CONSTRAINT pk_tipo_telefono PRIMARY KEY ( cve_tipo_telefono );
+
+ALTER TABLE libro
+    ADD CONSTRAINT fk_almacen_libro FOREIGN KEY ( cve_almacen )
+        REFERENCES almacen ( cve_almacen )
+    NOT DEFERRABLE;
+
+ALTER TABLE libro_autor
+    ADD CONSTRAINT fk_autor_libro_autor FOREIGN KEY ( cve_autor )
+        REFERENCES autor ( cve_autor )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura
+    ADD CONSTRAINT fk_cliente_factura FOREIGN KEY ( cve_cliente )
+        REFERENCES cliente ( cve_cliente )
+    NOT DEFERRABLE;
+
+ALTER TABLE telefonos
+    ADD CONSTRAINT fk_cliente_telefonos FOREIGN KEY ( cve_cliente )
+        REFERENCES cliente ( cve_cliente )
+    NOT DEFERRABLE;
+
+ALTER TABLE tienda_cliente
+    ADD CONSTRAINT fk_cliente_tienda_cliente FOREIGN KEY ( cve_cliente )
+        REFERENCES cliente ( cve_cliente )
+    NOT DEFERRABLE;
+
+ALTER TABLE direccion
+    ADD CONSTRAINT fk_colonia_direccion FOREIGN KEY ( cve_colonia )
+        REFERENCES colonia ( cve_colonia )
+    NOT DEFERRABLE;
+
+ALTER TABLE almacen
+    ADD CONSTRAINT fk_direccion_almacen FOREIGN KEY ( ubicacion )
+        REFERENCES direccion ( cve_direccion )
+    NOT DEFERRABLE;
+
+ALTER TABLE cliente
+    ADD CONSTRAINT fk_direccion_cliente FOREIGN KEY ( cve_direccion )
+        REFERENCES direccion ( cve_direccion )
+    NOT DEFERRABLE;
+
+ALTER TABLE editores
+    ADD CONSTRAINT fk_direccion_editores FOREIGN KEY ( cve_direccion )
+        REFERENCES direccion ( cve_direccion )
+    NOT DEFERRABLE;
+
+ALTER TABLE libreria
+    ADD CONSTRAINT fk_direccion_libreria FOREIGN KEY ( cve_direccion )
+        REFERENCES direccion ( cve_direccion )
+    NOT DEFERRABLE;
+
+ALTER TABLE tienda
+    ADD CONSTRAINT fk_direccion_tienda FOREIGN KEY ( cve_direccion )
+        REFERENCES direccion ( cve_direccion )
+    NOT DEFERRABLE;
+
+ALTER TABLE libro
+    ADD CONSTRAINT fk_editores_libro FOREIGN KEY ( cve_editores )
+        REFERENCES editores ( cve_editores )
+    NOT DEFERRABLE;
+
+ALTER TABLE pedido
+    ADD CONSTRAINT fk_editores_pedido FOREIGN KEY ( cve_editores )
+        REFERENCES editores ( cve_editores )
+    NOT DEFERRABLE;
+
+ALTER TABLE municipio
+    ADD CONSTRAINT fk_estado_municipio FOREIGN KEY ( cve_estado )
+        REFERENCES estado ( cve_estado )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura_libro
+    ADD CONSTRAINT fk_factura_factura_libro FOREIGN KEY ( cve_factura )
+        REFERENCES factura ( cve_factura )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura
+    ADD CONSTRAINT fk_fecha_factura FOREIGN KEY ( cve_fecha )
+        REFERENCES fecha ( cve_fecha )
+    NOT DEFERRABLE;
+
+ALTER TABLE pedido
+    ADD CONSTRAINT fk_fecha_pedido FOREIGN KEY ( cve_fecha )
+        REFERENCES fecha ( cve_fecha )
+    NOT DEFERRABLE;
+
+ALTER TABLE tienda
+    ADD CONSTRAINT fk_libreria_tienda FOREIGN KEY ( cve_libreria )
+        REFERENCES libreria ( cve_libreria )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura_libro
+    ADD CONSTRAINT fk_libro_factura_libro FOREIGN KEY ( cve_libro )
+        REFERENCES libro ( cve_libro )
+    NOT DEFERRABLE;
+
+ALTER TABLE libro_autor
+    ADD CONSTRAINT fk_libro_libro_autor FOREIGN KEY ( cve_libro )
+        REFERENCES libro ( cve_libro )
+    NOT DEFERRABLE;
+
+ALTER TABLE colonia
+    ADD CONSTRAINT fk_municipio_colonia FOREIGN KEY ( "cve_municipio " )
+        REFERENCES municipio ( "cve_municipio " )
+    NOT DEFERRABLE;
+
+ALTER TABLE estado
+    ADD CONSTRAINT fk_pais_estado FOREIGN KEY ( cve_pais )
+        REFERENCES pais ( cve_pais )
+    NOT DEFERRABLE;
+
+ALTER TABLE autor
+    ADD CONSTRAINT fk_persona_autor FOREIGN KEY ( cve_persona )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE cliente
+    ADD CONSTRAINT fk_persona_cliente FOREIGN KEY ( cve_persona )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE editores
+    ADD CONSTRAINT fk_persona_editores FOREIGN KEY ( nombre_contacto )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE libreria
+    ADD CONSTRAINT fk_persona_libreria FOREIGN KEY ( nombre_contacto )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE tienda
+    ADD CONSTRAINT fk_persona_tienda FOREIGN KEY ( nombre_responsable )
+        REFERENCES persona ( cve_persona )
+    NOT DEFERRABLE;
+
+ALTER TABLE almacen
+    ADD CONSTRAINT fk_tienda_almacen FOREIGN KEY ( cve_tienda )
+        REFERENCES tienda ( cve_tienda )
+    NOT DEFERRABLE;
+
+ALTER TABLE factura
+    ADD CONSTRAINT fk_tienda_factura FOREIGN KEY ( cve_tienda )
+        REFERENCES tienda ( cve_tienda )
+    NOT DEFERRABLE;
+
+ALTER TABLE pedido
+    ADD CONSTRAINT fk_tienda_pedido FOREIGN KEY ( cve_tienda )
+        REFERENCES tienda ( cve_tienda )
+    NOT DEFERRABLE;
+
+ALTER TABLE tienda_cliente
+    ADD CONSTRAINT fk_tienda_tienda_cliente FOREIGN KEY ( cve_tienda )
+        REFERENCES tienda ( cve_tienda )
+    NOT DEFERRABLE;
+
+ALTER TABLE cliente
+    ADD CONSTRAINT fk_tipo_cliente_cliente FOREIGN KEY ( cve_tipo_cliente )
+        REFERENCES tipo_cliente ( cve_tipo_cliente )
+    NOT DEFERRABLE;
+
+ALTER TABLE telefonos
+    ADD CONSTRAINT fk_tipo_telefono_telefonos FOREIGN KEY ( cve_tipo_telefono )
+        REFERENCES tipo_telefono ( cve_tipo_telefono )
+    NOT DEFERRABLE;
